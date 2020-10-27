@@ -1,0 +1,21 @@
+{% block head %}
+<meta name="viewport" content = "width=device-width, initial-scale=1.0, charset=utf-8">
+<link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='semanticui/semantic.css') }}">
+<link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='css/sdc_archive_curation.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='semanticui/semantic.js') }}"></script>
+
+{% endblock %}
+
+{% block title %}{% endblock %}
+
+
+{% block navbar %}
+    {% include 'header.html' %}
+{% endblock %}
+
+{% block content %}
+<h1>Hello, Bootstrapping!</h1>
+
+{% endblock content %}
+

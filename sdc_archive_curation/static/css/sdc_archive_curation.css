@@ -1,0 +1,25 @@
+img{
+    max-height:100%;
+    max-width:100%;
+}
+
+#jsoneditor{
+    max-height:100%;
+    max-width:100%;
+    height: 600px;
+}
+
+.observation_log{
+    white-space: pre-line;
+}
+
+.center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab{
+    overflow: auto;
+    max-height: 595px;
+}

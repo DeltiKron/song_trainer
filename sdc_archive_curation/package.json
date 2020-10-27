@@ -1,0 +1,11 @@
+{
+  "name": "sdc_archive_curation",
+  "version": "1.0.0",
+  "description": "Curation tools for SDC",
+  "main": "index.js",
+  "scripts": {
+    "test": "pass"
+  },
+  "author": "Me",
+  "license": "ISC"
+}

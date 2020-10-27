@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{super()}}
+<script>
+$(document).ready(function(){
+   $('.menu .item').tab();
+});
+
+
+
+
+
+
+
+</script>
+
+<script src="{{ url_for('static', filename='node_modules/jsoneditor/dist/jsoneditor.min.js') }}"></script>
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='node_modules/jsoneditor/dist/jsoneditor.min.css') }}">
+
+{% endblock head %}
+{% block content %}
+<div class="ui main container">
+    <h1>Observation {{obsname}} </h1>
+    <div class="ui segments">
+        <h3>Actions</h3>
+        <div class="ui segment">
+            <button class="ui positive button"><i class="check icon"></i>
+                Release Observation
+            </button>
+            <button class="ui negative button"><i class="x icon"></i>
+                Revoke Release
+            </button>
+        </div>
+        <div class="ui segment">
+            <form class="ui form">
+                <div class="field">
+                    <label>Embargo Date</label>
+                    <input type="text" name="first-name" placeholder="Embargo Date">
+                </div>
+                <button class="ui negative button" type="submit">Add Embargo</button>
+            </form>
+        </div>
+    </div>
+    <div class="two column ui grid centered">
+        <div class="ui column">
+            <div class="ui segment">
+                <h3>Resources</h3>
+                <div class="ui top attached tabular menu">
+                    <a class="item active" data-tab="first">Preview</a>
+                    <a class="item" data-tab="second">Location</a>
+                    <a class="item" data-tab="third">Observation Log</a>
+                </div>
+                <div class="ui bottom attached tab segment active" data-tab="first">
+                    <img class="center" src={{pre_url}}>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="second">
+                    <img class="center" src={{loc_url}}>
+
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="third" style="overflow:'auto'; maxHeight:200">
+                    <p class = "observation_log">{{log_text}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="ui column">
+            <div class="ui segment">
+                <h3>Observation Document</h3>
+
+                <div id="jsoneditor" style="padding:5px"></div>
+                <button class="ui primary button"><i class="save outline icon"></i>
+                    Save Observation Document
+                </button>
+
+                <script>
+        // create the editor
+        const container = document.getElementById("jsoneditor")
+        var json_data = JSON.parse('{{ description | tojson | safe}}');
+        const options = {
+        mode: 'view',
+        maxVisibleChilds: 50,
+        modes:['code', 'text', 'tree', 'view']
+        }
+        const editor = new JSONEditor(container, options)
+
+        // set json
+        // const initialJson = {'A':4}
+        const initialJson = json_data
+        editor.set(initialJson)
+
+        // get json
+        const updatedJson = editor.get()
+
+
+
+
+
+
+
+                </script>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock content %}
