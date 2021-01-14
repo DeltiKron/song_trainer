@@ -1,10 +1,6 @@
 import os
-from pprint import pformat
-import json
-from urllib.request import urlopen
-
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from requests.auth import HTTPBasicAuth
 
@@ -32,23 +28,17 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return render_template('hello.html')
-
-    # a simple page that says hello
     @app.route('/song_db')
     def songdb():
-        song=dict(
-            Title='Foobar',
-            Artist='Some Artist',
-            Play_Count=22,
-            rating=23,
+        song = dict(
+            Title='Fuck her Gently!',
+            Artist='Tenacious D',
+            play_count=22,
+            rating=4,
             song_id=20,
             notes='This is a Note'
         )
-        return render_template('song_db.html',song=song)
-
+        return render_template('song.html', song=song)
 
     # a simple page that links to base
     @app.route('/base')
@@ -59,6 +49,13 @@ def create_app(test_config=None):
     @app.route('/jsoneditor')
     def jsonedit():
         return render_template('json_editor_test.html')
+
+    @app.route('/rate_song')
+    def rate_song():
+        song_id = request.args.get('song_id')
+        rating = request.args.get('rating')
+        print(f'Someone rated {song_id} with {rating} stars.')
+        return f'Someone rated {song_id} with {rating} stars.'
 
     # a page that displays an observation
     @app.route('/observation/<obs_id>')
@@ -80,11 +77,13 @@ def create_app(test_config=None):
 
         obsname = json_data['description']['OBS_NAME']
 
-        return render_template('observation_view.html',obs_id=obs_id,description=json_data, log_text = log_text, pre_url=pre_url, loc_url=loc_url, obsname=obsname)
+        return render_template('observation_view.html', obs_id=obs_id, description=json_data, log_text=log_text,
+                               pre_url=pre_url, loc_url=loc_url, obsname=obsname)
 
     from . import db
     db.init_app(app)
 
     return app
+
 
 app = create_app()
