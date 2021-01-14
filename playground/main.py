@@ -35,6 +35,21 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return render_template('hello.html')
+
+    # a simple page that says hello
+    @app.route('/song_db')
+    def songdb():
+        song=dict(
+            Title='Foobar',
+            Artist='Some Artist',
+            Play_Count=22,
+            rating=23,
+            song_id=20,
+            notes='This is a Note'
+        )
+        return render_template('song_db.html',song=song)
+
+
     # a simple page that links to base
     @app.route('/base')
     def base():
