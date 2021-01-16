@@ -2,7 +2,11 @@ import os
 import requests
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
 from requests.auth import HTTPBasicAuth
+
+from songs_db.data_classes import Song
+from songs_db.db import get_db
 
 
 def create_app(test_config=None):
@@ -11,8 +15,9 @@ def create_app(test_config=None):
     Bootstrap(app)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, f'{__name__}.sqlite'),
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///'+os.path.join(app.instance_path, f'{__name__}.sqlite'),
     )
+
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -40,22 +45,30 @@ def create_app(test_config=None):
         )
         return render_template('song.html', song=song)
 
-    # a simple page that links to base
-    @app.route('/base')
-    def base():
-        return render_template('base.html')
-
-    # json editor test page
-    @app.route('/jsoneditor')
-    def jsonedit():
-        return render_template('json_editor_test.html')
-
+    ## No Page, just a HTTP endpoint
     @app.route('/rate_song')
-    def rate_song():
+    def rate_song(sel):
+        db = get_db()
         song_id = request.args.get('song_id')
-        rating = request.args.get('rating')
-        print(f'Someone rated {song_id} with {rating} stars.')
-        return f'Someone rated {song_id} with {rating} stars.'
+        new_rating = request.args.get('rating')
+        song = Song.query().filter_by(song_id=song_id)
+        play_count = song.play_count()
+
+        if play_count == 0:
+            play_count = 1
+            mean_rating = new_rating
+        else:
+            play_count+=1
+            mean_rating = song.skill_level+((new_rating-new_rating)/play_count)
+
+        db.session.query().filter_by(song_id=song_id).update(skill_level=mean_rating,play_count=play_count)
+
+        print(f'Someone rated {song_id} with {new_rating} stars.')
+        return f'Someone rated {song_id} with {new_rating} stars.'
+
+    @app.route('/home')
+    def start_page():
+        return render_template('start_page.html')
 
     # a page that displays an observation
     @app.route('/observation/<obs_id>')

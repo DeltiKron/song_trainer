@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{super()}}
+<script>
+$(document).ready(function(){
+   $('.menu .item').tab();
+   $('.ui.rating').rating({
+    maxRating: 5
+   });
+   $('.ui.rating')
+  .rating('setting', 'onRate', function(value) {
+      var song_id = this.dataset.song_id;
+      console.log(song_id);
+      console.log(value);
+      const url = "rate_song"
+      $.get(url,{song_id:song_id,rating:value});
+  });
+});
+
+
+
+
+</script>
+
+{% endblock head %}
+{% block content %}
+    <h1>Songs </h1>
+    <ul>
+        <li>Link cards to song page</li>
+        <li>Add reshuffle button</li>
+    </ul>
+        <div class="ui three cards">
+            {% for i in range(16)%}
+            <div class="ui raised card">
+                <div class="content">
+                    <div class="header">
+                        {{song.Title}}
+                    </div>
+                    <div class="meta">
+                        {{song.Artist}}
+                    </div>
+                    <div class="description">
+                        <table>
+                            <tr>
+                                <td>Play Count:</td>
+                                <td>{{song.play_count}}</td>
+                            </tr>
+                            <tr>
+                                <td>Skill:</td>
+                                <td>
+                                    <div class="ui star rating" data-song_id="{{song.song_id+i}}"
+                                         data-rating="{{song.rating}}"></div>
+                                </td>
+                            </tr>
+
+
+                        </table>
+
+                    </div>
+                </div>
+                <div class="extra content">
+                    <div class="ui two buttons">
+                        <div class="ui basic green button">Good</div>
+                        <div class="ui basic red button">Bad</div>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+{% endblock content %}
