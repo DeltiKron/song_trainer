@@ -19,12 +19,6 @@ $(document).ready(function(){
 });
 
 
-
-
-
-
-
-
 </script>
 
 {% endblock head %}
@@ -56,10 +50,12 @@ $(document).ready(function(){
                 </table>
             </div>
         </div>
+        {% if song.notes%}
         <div class="extra content">
             Notes:
             <p>{{song.notes}}</p>
         </div>
+        {% endif %}
 
     </a>
     {% endfor %}

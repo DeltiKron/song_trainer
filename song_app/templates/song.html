@@ -1,4 +1,56 @@
 {%extends "base.html"%}
+
+{% block head %}
+{{super()}}
+<script>
+$(document).ready(function(){
+   $('.ui.rating')
+  .rating('setting', 'onRate', function(value) {
+      var song_id = this.dataset.song_id;
+      console.log(song_id);
+      console.log(value);
+      const url = "{{url_for('songs.rate_song')}}"
+      $.get(url,{song_id:song_id,rating:value});
+      console.log("Rated! using "+url)
+      window.location.href = '{{url_for("songs.random_songs")}}';
+  });
+});
+
+
+
+</script>
+
+{% endblock head %}
+
 {% block content %}
-{{song}}
-{% endblock %}
+
+<br>
+<div class="ui segment">
+    <h1>{{song.title}}</h1>
+    <h3>{{song.artist}}</h3>
+    <div class="ui fluid card">
+        <table>
+            <tr>
+                <td>Play Count:</td>
+                <td>{{song.play_count}}</td>
+            </tr>
+            <tr>
+                <td>Skill Level:</td>
+                <td>{{song.skill_level}}</td>
+            </tr>
+        </table>
+        <a class=" ui button" href={{url_for('songs.random_songs')}}>New Random Grid</a>
+        <a class=" ui button" href={{url_for('songs.get_random_song')}}>Load new Random Song</a>
+        <table>
+            <tr>
+                <td>
+                    Rate performance to increment play count and get new grid:
+                </td>
+                <td>
+                    <div class="ui star rating" data-song_id="{{song.id}}"
+                         data-rating="{{song.skill_level}}" data-max-rating="5"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% endblock %}

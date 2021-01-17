@@ -1,0 +1,39 @@
+{% extends "base.html"%}
+
+{%block content%}
+<script>
+$(document).ready(function(){
+   $('.ui.rating').rating({
+    interactive: false
+   });
+});
+
+
+</script>
+
+<title>List of Songs</title>
+<h1>List of Songs</h1>
+<table class="ui striped table">
+    <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Artist</th>
+    <th>Play Count</th>
+    <th>Skill Level</th>
+    </tr>
+    {%for song in songs%}
+    <tr >
+        <td>{{song.id}}</td>
+        <td><a href="{{url_for('songs.play_song',song_id=song.id)}}">{{song.title}}</a></td>
+        <td>{{song.artist}}</td>
+        <td>{{song.play_count}}</td>
+        <td>{% if song.skill_level is number%}
+             <div class="ui star rating" data-song_id="{{song.id}}" data-rating="{{song.skill_level}}" data-max-rating="5"></div>
+            {%endif%}
+        </td>
+    </tr>
+    {%endfor%}
+</table>
+
+
+{%endblock%}
