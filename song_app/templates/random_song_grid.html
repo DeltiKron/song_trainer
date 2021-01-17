@@ -21,53 +21,50 @@ $(document).ready(function(){
 
 
 
+
+
+
+
 </script>
 
 {% endblock head %}
 {% block content %}
-    <h1>Songs </h1>
-    <ul>
-        <li>Link cards to song page</li>
-        <li>Add reshuffle button</li>
-    </ul>
-        <div class="ui three cards">
-            {% for i in range(16)%}
-            <div class="ui raised card">
-                <div class="content">
-                    <div class="header">
-                        {{song.Title}}
-                    </div>
-                    <div class="meta">
-                        {{song.Artist}}
-                    </div>
-                    <div class="description">
-                        <table>
-                            <tr>
-                                <td>Play Count:</td>
-                                <td>{{song.play_count}}</td>
-                            </tr>
-                            <tr>
-                                <td>Skill:</td>
-                                <td>
-                                    <div class="ui star rating" data-song_id="{{song.song_id+i}}"
-                                         data-rating="{{song.rating}}"></div>
-                                </td>
-                            </tr>
-
-
-                        </table>
-
-                    </div>
-                </div>
-                <div class="extra content">
-                    <div class="ui two buttons">
-                        <div class="ui basic green button">Good</div>
-                        <div class="ui basic red button">Bad</div>
-                    </div>
-                </div>
-
+<h1>Songs </h1>
+<div class="ui three cards">
+    {% for song in songs%}
+    <a class="ui raised card" href="{{url_for('songs.play_song',song_id=song.id)}}">
+        <div class="content">
+            <div class="header">
+                {{song.title}}
             </div>
-            {% endfor %}
+            <div class="meta">
+                {{song.artist}}
+            </div>
+            <div class="description">
+                <table>
+                    <tr>
+                        <td>Play Count:</td>
+                        <td>{{song.play_count}}</td>
+                    </tr>
+                    <tr>
+                        <td>Skill:</td>
+                        <td>
+                            <div class="ui star rating" data-song_id="{{song.id}}"
+                                 data-rating="{{song.skill_level}}"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
+        <div class="extra content">
+            Notes:
+            <p>{{song.notes}}</p>
+        </div>
+
+    </a>
+    {% endfor %}
+</div>
+<br>
+<a href="{{ url_for('songs.random_songs') }}" class="ui primary fluid button">Reshuffle</a>
 
 {% endblock content %}

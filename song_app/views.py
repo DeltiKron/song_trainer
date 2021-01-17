@@ -1,3 +1,5 @@
+from random import choices, shuffle
+
 from flask import (
     Blueprint, render_template, request
 )
@@ -8,17 +10,16 @@ bp = Blueprint('songs', __name__, url_prefix='/songs')
 
 
 @bp.route('/random')
-def songdb():
-    song = dict(
-        Title='Fuck her Gently!',
-        Artist='Tenacious D',
-        play_count=22,
-        rating=4,
-        song_id=20,
-        notes='This is a Note'
-    )
-    return render_template('song.html', song=song)
+def random_songs():
+    songs = Song.query.all()
+    shuffle(songs)
+    return render_template('random_song_grid.html', songs=songs[:9])
 
+@bp.route('/play_song/<song_id>')
+def play_song(song_id):
+    song = Song.query.get(song_id)
+    print(song)
+    return render_template('song.html',song=song)
 # ## No Page, just a HTTP endpoint
 @bp.route('/rate_song')
 def rate_song():
