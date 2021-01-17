@@ -15,6 +15,12 @@ def random_songs():
     shuffle(songs)
     return render_template('random_song_grid.html', songs=songs[:9])
 
+@bp.route('/random_song')
+def get_random_song():
+    songs = Song.query.all()
+    shuffle(songs)
+    return render_template('song.html',song=songs[0])
+
 @bp.route('/play_song/<song_id>')
 def play_song(song_id):
     song = Song.query.get(song_id)
@@ -42,6 +48,14 @@ def rate_song():
     print(f'Someone rated {song_id} with {new_rating} stars.')
     return f'Someone rated {song_id} with {new_rating} stars.'
 
+@bp.route("list_songs")
+def list_songs():
+    songs = Song.query.all()
+    return render_template('list_songs.html',songs=songs)
+
+@bp.route("add_song")
+def add_song():
+    return render_template('start_page.html')
 
 @bp.route('/home')
 def start_page():
