@@ -1,8 +1,9 @@
 from random import choices, shuffle
 
 from flask import (
-    Blueprint, render_template, request
+    Blueprint, render_template, request, url_for, flash
 )
+from werkzeug.utils import redirect
 
 from song_app.data_classes import Song, db
 
@@ -53,9 +54,33 @@ def list_songs():
     songs = Song.query.all()
     return render_template('list_songs.html',songs=songs)
 
-@bp.route("add_song")
+
+@bp.route('/add_song', methods=('GET', 'POST'))
 def add_song():
-    return render_template('start_page.html')
+    if request.method == 'POST':
+        title = request.form['title']
+        artist = request.form['artist']
+        notes = request.form['notes']
+        error = None
+
+        if not title:
+            error = 'Title is required.'
+        elif not artist:
+            error = 'Artist is required.'
+
+        if error is None:
+            duplicates = db.session.query(Song).filter(Song.title==title,Song.artist==artist).all()
+            if len(duplicates) >=1:
+                error = "Song already in DB!"
+        if error is None:
+            song = Song(title=title, artist=artist, skill_level=1, play_count=0, notes=notes)
+            db.session.add(song)
+            db.session.commit()
+            return redirect(url_for('songs.play_song',song_id=song.id))
+        flash(error)
+
+    return render_template('add_song.html')
+
 
 @bp.route('/home')
 def start_page():

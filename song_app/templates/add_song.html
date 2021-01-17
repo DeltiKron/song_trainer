@@ -1,6 +1,24 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
+{% block header %}
+  <h1>{% block title %}Add Song{% endblock %}</h1>
+{% endblock %}
 
-{%block content%}
-form for adding a song and notes
-{%endblock%}
+{% block content %}
+<form class="ui form" method="post">
+  <div class="field">
+    <label>Title</label>
+    <input type="text" name="title" placeholder="Song Title">
+  </div>
+  <div class="field">
+    <label>Artist</label>
+    <input type="text" name="artist" placeholder="Artist Name">
+  </div>
+  <div class="field">
+    <label>Notes</label>
+    <input type="text" name="notes" placeholder="Notes for this Song">
+  </div>
+  <button class="ui button" type="submit">Submit</button>
+</form>
+
+{% endblock %}
