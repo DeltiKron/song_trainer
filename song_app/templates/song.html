@@ -10,9 +10,15 @@ $(document).ready(function(){
       console.log(song_id);
       console.log(value);
       const url = "{{url_for('songs.rate_song')}}"
-      $.get(url,{song_id:song_id,rating:value});
-      console.log("Rated! using "+url)
-      window.location.href = '{{url_for("songs.random_songs")}}';
+      $.ajax({
+     async: false,
+     type: 'GET',
+     url: url,
+     data:{song_id:song_id,rating:value},
+     success: function(data) {
+          window.location.href = '{{url_for("songs.random_songs")}}';
+     }
+});
   });
 });
 
