@@ -19,6 +19,7 @@ $(document).ready(function(){
 });
 
 
+
 </script>
 
 {% endblock head %}
@@ -40,13 +41,17 @@ $(document).ready(function(){
                         <td>Play Count:</td>
                         <td>{{song.play_count}}</td>
                     </tr>
+                    {% if song.skill_level is number%}
                     <tr>
                         <td>Skill:</td>
                         <td>
-                            <div class="ui star rating" data-song_id="{{song.id}}"
-                                 data-rating="{{song.skill_level}}"></div>
+
+                            <div class="ui star rating" data-song_id="{{song.id}}" data-rating="{{song.skill_level|round|int}}"
+                                 data-max-rating="5"></div>
+
                         </td>
                     </tr>
+                    {%endif%}
                 </table>
             </div>
         </div>

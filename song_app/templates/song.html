@@ -42,7 +42,7 @@ $(document).ready(function(){
             </tr>
             <tr>
                 <td>Skill Level:</td>
-                <td>{{song.skill_level}}</td>
+                <td>{{'%0.1f'%song.skill_level|float}}</td>
             </tr>
         </table>
         <a class=" ui button" href={{url_for('songs.random_songs')}}>New Random Grid</a>
@@ -54,7 +54,7 @@ $(document).ready(function(){
                 </td>
                 <td>
                     <div class="ui star rating" data-song_id="{{song.id}}"
-                         data-rating="{{song.skill_level}}" data-max-rating="5"></div>
+                         data-rating="{{song.skill_level|round|int}}" data-max-rating="5"></div>
                 </td>
             </tr>
         </table>
