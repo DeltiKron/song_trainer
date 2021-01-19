@@ -73,7 +73,7 @@ def add_song():
             if len(duplicates) >=1:
                 error = "Song already in DB!"
         if error is None:
-            song = Song(title=title, artist=artist, skill_level=1, play_count=0, notes=notes)
+            song = Song(title=title, artist=artist, skill_level=0, play_count=0, notes=notes)
             db.session.add(song)
             db.session.commit()
             return redirect(url_for('songs.play_song',song_id=song.id))

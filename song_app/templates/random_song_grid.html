@@ -6,16 +6,9 @@
 $(document).ready(function(){
    $('.menu .item').tab();
    $('.ui.rating').rating({
-    maxRating: 5
+    maxRating: 5,
+    interactive:false
    });
-   $('.ui.rating')
-  .rating('setting', 'onRate', function(value) {
-      var song_id = this.dataset.song_id;
-      console.log(song_id);
-      console.log(value);
-      const url = "rate_song"
-      $.get(url,{song_id:song_id,rating:value});
-  });
 });
 
 
@@ -24,8 +17,9 @@ $(document).ready(function(){
 
 {% endblock head %}
 {% block content %}
-<h1>Songs </h1>
-<div class="ui three cards">
+<h1>Choose a Song to Play! </h1>
+<title>Choose a Song to Play! </title>
+<div class="ui three stackable cards">
     {% for song in songs%}
     <a class="ui raised card" href="{{url_for('songs.play_song',song_id=song.id)}}">
         <div class="content">
@@ -36,7 +30,7 @@ $(document).ready(function(){
                 {{song.artist}}
             </div>
             <div class="description">
-                <table>
+                <table class="ui stackable table">
                     <tr>
                         <td>Play Count:</td>
                         <td>{{song.play_count}}</td>

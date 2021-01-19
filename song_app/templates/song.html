@@ -33,6 +33,7 @@ $(document).ready(function(){
 <br>
 <div class="ui segment">
     <h1>{{song.title}}</h1>
+    <title>Play: {{song.title}}</title>
     <h3>{{song.artist}}</h3>
     <div class="ui fluid card">
         <table>
@@ -47,13 +48,13 @@ $(document).ready(function(){
         </table>
         <a class=" ui button" href={{url_for('songs.random_songs')}}>New Random Grid</a>
         <a class=" ui button" href={{url_for('songs.get_random_song')}}>Load new Random Song</a>
-        <table>
+        <table class = "ui stackable table">
             <tr>
                 <td>
                     Rate performance to increment play count and get new grid:
                 </td>
                 <td>
-                    <div class="ui star rating" data-song_id="{{song.id}}"
+                    <div class="ui star massive rating" data-song_id="{{song.id}}"
                          data-rating="{{song.skill_level|round|int}}" data-max-rating="5"></div>
                 </td>
             </tr>
