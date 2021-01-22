@@ -28,7 +28,7 @@ $(document).ready(function(){
         <td>{{song.artist}}</td>
         <td>{{song.play_count}}</td>
         <td>{% if song.skill_level is number%}
-             <div class="ui star rating" data-song_id="{{song.id}}" data-rating="{{song.skill_level}}" data-max-rating="5"></div>
+             <div class="ui star rating" data-song_id="{{song.id}}" data-rating="{{song.skill_level|round|int}}" data-max-rating="5"></div>
             {%endif%}
         </td>
     </tr>
