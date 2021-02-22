@@ -9,16 +9,11 @@ from song_app.data_classes import Song, db
 
 bp = Blueprint('songs', __name__, url_prefix='/songs')
 
-
 @bp.route('/random')
 def random_songs():
     songs = Song.query.all()
     shuffle(songs)
     return render_template('random_song_grid.html', songs=songs[:9])
-
-@bp.route('/test')
-def test():
-    return render_template('test.html')
 
 
 @bp.route('/random_song')
