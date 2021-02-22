@@ -29,6 +29,15 @@ def play_song(song_id):
     print(song)
     return render_template('song.html', song=song)
 
+#background process to write song to db
+@bp.route('/write_notes')
+def write_notes():
+    song_id = request.args.get('song_id')
+    notes = request.args.get('notes')
+    song = Song.query.filter_by(id=song_id).first()
+    song.notes = notes
+    db.session.commit()
+    return ("nothing")
 
 # ## No Page, just a HTTP endpoint
 @bp.route('/rate_song')
