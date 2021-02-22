@@ -16,6 +16,10 @@ def random_songs():
     shuffle(songs)
     return render_template('random_song_grid.html', songs=songs[:9])
 
+@bp.route('/test')
+def test():
+    return render_template('test.html')
+
 
 @bp.route('/random_song')
 def get_random_song():
