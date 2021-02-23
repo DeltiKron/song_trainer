@@ -20,10 +20,8 @@ $(document).ready(function(){
   });
 });
 
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
-function saveNotes(button){
+
+function saveNotes(){
     content = $('#notes')[0].value;
     $.ajax({
     url: '{{url_for("songs.write_notes")}}',
@@ -42,7 +40,9 @@ function toggle_save_button(notes){
     }
 }
 
-
+$("#notes_form").submit(function(e) {
+    e.preventDefault();
+});
 
 
 
@@ -69,7 +69,7 @@ function toggle_save_button(notes){
         <div class="row">
             <div class="column">
                 Notes:
-                <div class="ui form">
+                <form class="ui form" id="notes_form" onsubmit="saveNotes();return false">
 
                     <input
                             type="text" id="notes"
@@ -81,9 +81,8 @@ function toggle_save_button(notes){
                             {% endif %}
                     >
                     <br><br>
-                    <button onclick="saveNotes(this)" disabled="true" id="save_notes_button" class="ui small basic positive button">Save Notes</button>
-
-                </div>
+                    <input type="submit" disabled="true" id="save_notes_button" class="ui small basic positive button" value="Save Notes">
+                </form>
 
             </div>
         </div>
