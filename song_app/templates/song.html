@@ -7,8 +7,6 @@ $(document).ready(function(){
    $('.ui.rating')
   .rating('setting', 'onRate', function(value) {
       var song_id = this.dataset.song_id;
-      console.log(song_id);
-      console.log(value);
       const url = "{{url_for('songs.rate_song')}}"
       $.ajax({
      async: false,
@@ -23,6 +21,32 @@ $(document).ready(function(){
 });
 
 
+function saveNotes(){
+    content = $('#notes')[0].value;
+    $.ajax({
+    url: '{{url_for("songs.write_notes")}}',
+    data: {"song_id": {{song.id}},"notes":content},
+    success: function(){
+        location.reload(true);
+    }
+    });
+}
+
+function toggle_save_button(notes){
+    button=$("#save_notes_button");
+    button.prop('disabled', true);
+    if(notes!='{{song.notes}}'){
+        button.prop('disabled', false);
+    }
+}
+
+$("#notes_form").submit(function(e) {
+    e.preventDefault();
+});
+
+
+
+
 
 </script>
 
@@ -35,29 +59,45 @@ $(document).ready(function(){
     <h1>{{song.title}}</h1>
     <title>Play: {{song.title}}</title>
     <h3>{{song.artist}}</h3>
-    <div class="ui fluid card">
-        <table>
-            <tr>
-                <td>Play Count:</td>
-                <td>{{song.play_count}}</td>
-            </tr>
-            <tr>
-                <td>Skill Level:</td>
-                <td>{{'%0.1f'%song.skill_level|float}}</td>
-            </tr>
-        </table>
+    <div class="ui one column grid">
+        <div class="row">
+            <div class="column">Play Count: {{song.play_count}}</div>
+        </div>
+        <div class="row">
+            <div class="column">Skill Level: {{'%0.1f'%song.skill_level|float}}</div>
+        </div>
+        <div class="row">
+            <div class="column">
+                Notes:
+                <form class="ui form" id="notes_form" onsubmit="saveNotes();return false">
+
+                    <input
+                            type="text" id="notes"
+                            onkeyup="toggle_save_button(this.value)"
+                            {% if song.notes %}
+                            value="{{song.notes}}"
+                            {% else %}
+                            placeholder="Enter notes here"
+                            {% endif %}
+                    >
+                    <br><br>
+                    <input type="submit" disabled="true" id="save_notes_button" class="ui small basic positive button" value="Save Notes">
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="ui divider"></div>
+    <div>
+        Rate performance to increment play count and get new grid: <br>
+        <div class="ui star massive rating" data-song_id="{{song.id}}"
+             data-rating="{{song.skill_level|round|int}}" data-max-rating="5"></div>
+    </div>
+    <div class="ui divider"></div>
+    <div>
         <a class=" ui button" href={{url_for('songs.random_songs')}}>New Random Grid</a>
         <a class=" ui button" href={{url_for('songs.get_random_song')}}>Load new Random Song</a>
-        <table class = "ui stackable table">
-            <tr>
-                <td>
-                    Rate performance to increment play count and get new grid:
-                </td>
-                <td>
-                    <div class="ui star massive rating" data-song_id="{{song.id}}"
-                         data-rating="{{song.skill_level|round|int}}" data-max-rating="5"></div>
-                </td>
-            </tr>
-        </table>
     </div>
-    {% endblock %}
+
+</div>
+{% endblock %}

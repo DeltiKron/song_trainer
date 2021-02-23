@@ -1,6 +1,10 @@
 {% extends "base.html"%}
 
-{%block content%}
+{% block head %}
+{{super()}}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/se/dt-1.10.23/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/se/dt-1.10.23/datatables.min.js"></script>
+
 <script>
 $(document).ready(function(){
    $('.ui.rating').rating({
@@ -8,31 +12,47 @@ $(document).ready(function(){
    });
 });
 
+$(document).ready( function () {
+    $('#SongsTable').DataTable({
+    paging: false
+}
+    );
+} );
 
 </script>
 
+{% endblock %}
+
+
+{%block content%}
+
 <title>List of Songs</title>
 <h1>List of Songs</h1>
-<table class="ui striped table">
+<table id="SongsTable" class="ui sortable celled table">
+    <thead>
     <tr>
-    <th>ID</th>
-    <th>Title</th>
-    <th>Artist</th>
-    <th>Play Count</th>
-    <th>Skill Level</th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Artist</th>
+        <th>Play Count</th>
+        <th>Skill Level</th>
     </tr>
+    </thead>
+    <tbody>
     {%for song in songs%}
-    <tr >
+    <tr>
         <td>{{song.id}}</td>
         <td><a href="{{url_for('songs.play_song',song_id=song.id)}}">{{song.title}}</a></td>
         <td>{{song.artist}}</td>
         <td>{{song.play_count}}</td>
         <td>{% if song.skill_level is number%}
-             <div class="ui star rating" data-song_id="{{song.id}}" data-rating="{{song.skill_level|round|int}}" data-max-rating="5"></div>
+            <div class="ui star rating" data-song_id="{{song.id}}" data-rating="{{song.skill_level|round|int}}"
+                 data-max-rating="5"></div>
             {%endif%}
         </td>
     </tr>
     {%endfor%}
+    </tbody>
 </table>
 
 
