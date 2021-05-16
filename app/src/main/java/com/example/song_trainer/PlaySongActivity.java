@@ -21,6 +21,7 @@ public class PlaySongActivity extends AppCompatActivity {
     private TextView artistText;
     private TextView playCountText;
     private TextView ratingText;
+    private TextView noteText;
     private Song mSong;
     SongDatabase db;
 
@@ -50,15 +51,17 @@ public class PlaySongActivity extends AppCompatActivity {
         artistText = findViewById(R.id.tvArtist);
         playCountText = findViewById(R.id.tvPlayCount);
         ratingText = findViewById(R.id.tvRating);
+        noteText = findViewById(R.id.tvNotes);
 
         titleText.setText(mSong.title);
         artistText.setText(mSong.artist);
-        playCountText.setText(String.format(java.util.Locale.US, "%3d", mSong.playCount));
-        String ratingString = "Rating: " + String.format(java.util.Locale.US, "%3.1f", mSong.skillLevel);
+        playCountText.setText(String.format(java.util.Locale.US, "Play Count: %3d", mSong.playCount));
+        String ratingString = String.format(java.util.Locale.US, "Rating: %3.1f", mSong.skillLevel);
         ratingText.setText(ratingString);
+        noteText.setText(mSong.notes);
 
         skillBar.setNumStars(5);
-        skillBar.setRating((float) 2.5);
+        skillBar.setRating((float) mSong.playCount);
 
         // Add callback to print out rating on click
         FloatingActionButton button = findViewById(R.id.submit_rating_button);
