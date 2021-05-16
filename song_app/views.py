@@ -1,7 +1,7 @@
 from random import shuffle
 
 from flask import (
-    Blueprint, render_template, request, url_for, flash
+    Blueprint, render_template, request, url_for, flash, json, jsonify, Response
 )
 from werkzeug.utils import redirect
 
@@ -66,6 +66,13 @@ def rate_song():
 def list_songs():
     songs = Song.query.all()
     return render_template('list_songs.html', songs=songs)
+
+@bp.route("export_songs")
+def export_songs():
+    print("running export songs")
+    songs = Song.query.all()
+    return jsonify([s.serialize() for s in songs])
+    #return render_template('list_songs.html', songs=songs)
 
 
 @bp.route('/add_song', methods=('GET', 'POST'))

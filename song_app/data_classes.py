@@ -14,3 +14,13 @@ class Song(db.Model):
 
     def __str__(self):
         return f"Song: {self.title} by {self.artist}; played {self.play_count} times; skill_level {self.skill_level}"
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'artist': self.artist,
+            'play_count': self.play_count,
+            'skill_level': self.skill_level,
+            'notes': self.notes,
+        }
