@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,10 +59,15 @@ public class PlaySongActivity extends AppCompatActivity {
         playCountText.setText(String.format(java.util.Locale.US, "Play Count: %3d", mSong.playCount));
         String ratingString = String.format(java.util.Locale.US, "Rating: %3.1f", mSong.skillLevel);
         ratingText.setText(ratingString);
-        noteText.setText(mSong.notes);
 
+        if (!mSong.notes.equals("null")){
+            noteText.setText(String.format("Notes: %s", mSong.notes));
+        }
+        else{
+            noteText.setVisibility(View.INVISIBLE);
+        }
         skillBar.setNumStars(5);
-        skillBar.setRating((float) mSong.playCount);
+        skillBar.setRating(mSong.skillLevel);
 
         // Add callback to print out rating on click
         FloatingActionButton button = findViewById(R.id.submit_rating_button);
