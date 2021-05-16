@@ -20,8 +20,6 @@ public class AddSongActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        // TODO: an edit-song activity would also be neat
-        // TODO: check for redundancy
 
         fab.setOnClickListener(view -> {
             String title = ((EditText) findViewById(R.id.editTitle)).getText().toString();
@@ -38,8 +36,12 @@ public class AddSongActivity extends AppCompatActivity {
             }
             else {
                 Song song = new Song(title, artist, 0, 0, notes);
-
-                songDB.songDAO().insertSong(song);
+                if (!songDB.songDAO().songExists(song.title, song.artist)) {
+                    songDB.songDAO().insertSong(song);
+                } else{
+                    Snackbar.make(view, "Song already exists!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
                 this.finish();
             }
         });
