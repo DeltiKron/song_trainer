@@ -22,4 +22,5 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="action_import">Import Songs from Remote Server</string>
     <string name="host_sample">e.g. 192.168.2.2:5000/songs/export_songs</string>
+    <string name="action_search">Search</string>
 </resources>

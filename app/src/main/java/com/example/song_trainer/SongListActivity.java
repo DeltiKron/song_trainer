@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -57,6 +58,9 @@ public class SongListActivity extends AppCompatActivity implements SongsAdapter.
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action_bar, menu);
+        menu.findItem(R.id.action_delete).setVisible(false);
+        menu.findItem(R.id.action_edit).setVisible(false);
+        menu.findItem(R.id.action_search).setVisible(true);
         return true;
     }
 
@@ -111,7 +115,12 @@ public class SongListActivity extends AppCompatActivity implements SongsAdapter.
         setContentView(R.layout.activity_song_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
 
+        // Enable the Up button
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
         FloatingActionButton add_song_button = findViewById(R.id.add_song_button);
         add_song_button.setOnClickListener(view -> {
                     Intent intent = new Intent(this, AddSongActivity.class);
