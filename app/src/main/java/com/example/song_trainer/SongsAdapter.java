@@ -20,6 +20,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
 
     private onSongListener onSongListener;
     private List<Song> mSongs;
+    private List<Song> songsCopy;
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -27,6 +28,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
     public SongsAdapter(List<Song> songs, onSongListener onSongListener) {
         this.mSongs = songs;
         this.onSongListener = onSongListener;
+        this.songsCopy.addAll(songs);
     }
 
     @NonNull
@@ -103,6 +105,21 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> 
 
     public interface onSongListener {
         void onSongClick(int position);
+    }
+
+    public void filter(String text) {
+        mSongs.clear();
+        if(text.isEmpty()){
+            mSongs.addAll(itemsCopy);
+        } else{
+            text = text.toLowerCase();
+            for(PhoneBookItem item: itemsCopy){
+                if(item.name.toLowerCase().contains(text) || item.phone.toLowerCase().contains(text)){
+                    mSongs.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 }

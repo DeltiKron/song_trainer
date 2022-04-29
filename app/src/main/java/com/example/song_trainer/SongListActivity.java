@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -60,8 +61,22 @@ public class SongListActivity extends AppCompatActivity implements SongsAdapter.
         getMenuInflater().inflate(R.menu.action_bar, menu);
         menu.findItem(R.id.action_delete).setVisible(false);
         menu.findItem(R.id.action_edit).setVisible(false);
-        menu.findItem(R.id.action_search).setVisible(true);
+
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setVisible(true);
+
         return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        // Here is where we are going to implement the filter logic
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
     @Override
